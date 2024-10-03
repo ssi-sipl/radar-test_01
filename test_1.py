@@ -1,6 +1,7 @@
 import serial
 import threading
 import sys
+import time
 
 def read_from_port(ser):
     while True:
@@ -20,6 +21,7 @@ def write_to_port(ser):
         try:
             message = input()
             ser.write(message.encode('utf-8') + b'\r\n')
+            time.sleep(0.2)  # Add a delay of 0.2 seconds
         except serial.SerialException:
             print("Serial port closed")
             break
