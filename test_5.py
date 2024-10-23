@@ -1,6 +1,7 @@
 import serial
 import logging
 import time
+import re  # Import regular expressions
 
 # Configure the serial port
 port = '/dev/ttyS0'  # Change this to your UART port
@@ -20,8 +21,11 @@ try:
         if ser.in_waiting > 0:  # Check if there is data waiting
             data = ser.readline().decode('utf-8').rstrip()  # Read a line and decode
             
-            try:
-                value = float(data)  # Convert the received data to float
+            # Use regex to find numbers in the data
+            match = re.search(r'(\d+)', data)
+            
+            if match:
+                value = float(match.group(1))  # Convert the found number to float
                 
                 # Check if the value is within the specified range
                 if 100 <= value <= 200:
@@ -29,10 +33,9 @@ try:
                     logging.info(f"Received: {value} meters")  # Log the in-range value
                 else:
                     logging.info(f"Out of range: {value} meters")  # Log the out-of-range value
-                    
-            except ValueError:
+            else:
                 logging.warning(f"Invalid data received: {data}")  # Log invalid data
-        
+
         time.sleep(1)  # Delay of 1 second between iterations
 
 except serial.SerialException as e:
