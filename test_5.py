@@ -1,9 +1,13 @@
 import serial
-import time
+import logging
 
 # Configure the serial port
 port = '/dev/ttyS0'  # Change this to your UART port
 baud_rate = 115200   # Set the baud rate to 115200
+
+# Set up logging
+logging.basicConfig(filename='uart_values.log', level=logging.INFO,
+                    format='%(asctime)s - %(message)s')
 
 try:
     # Create a serial connection
@@ -21,13 +25,15 @@ try:
                 # Check if the value is within the specified range
                 if 100 <= value <= 200:
                     print(f"Received: {value} meters")
+                    logging.info(f"Received: {value} meters")  # Log the in-range value
+                else:
+                    logging.info(f"Out of range: {value} meters")  # Log the out-of-range value
                     
             except ValueError:
-                # Ignore invalid data without printing anything
-                pass
+                logging.warning(f"Invalid data received: {data}")  # Log invalid data
 
 except serial.SerialException as e:
-    print(f"Error: {e}")
+    logging.error(f"Serial error: {e}")
 
 except KeyboardInterrupt:
     print("Exiting...")
