@@ -20,10 +20,10 @@ try:
             data = ser.readline().decode('utf-8').rstrip()  # Read a line and decode
             
             try:
-                value = float(data)  # Convert the received data to float
+               # value = float(data)  # Convert the received data to float
                 
                 # Check if the value is within the specified range
-                if 100 <= value <= 200:
+                if 100 <= data <= 200:
                     print(f"Received: {value} meters")
                     logging.info(f"Received: {value} meters")  # Log the in-range value
                 else:
