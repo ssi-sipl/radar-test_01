@@ -3,7 +3,7 @@ import time
 
 # Configure the serial port
 port = '/dev/ttyS0'  # Change this to your UART port
-baud_rate = 9600     # Set the baud rate according to your device
+baud_rate = 115200   # Set the baud rate to 115200
 
 try:
     # Create a serial connection
@@ -20,12 +20,11 @@ try:
                 
                 # Check if the value is within the specified range
                 if 100 <= value <= 200:
-                    print(f"Received: {value} meters (in range)")
-                else:
-                    print(f"Received: {value} meters (out of range)")
+                    print(f"Received: {value} meters")
                     
             except ValueError:
-                print(f"Invalid data received: {data}")
+                # Ignore invalid data without printing anything
+                pass
 
 except serial.SerialException as e:
     print(f"Error: {e}")
