@@ -1,5 +1,6 @@
 import serial
 import logging
+import time
 
 # Configure the serial port
 port = '/dev/ttyS0'  # Change this to your UART port
@@ -31,6 +32,8 @@ try:
                     
             except ValueError:
                 logging.warning(f"Invalid data received: {data}")  # Log invalid data
+        
+        time.sleep(1)  # Delay of 1 second between iterations
 
 except serial.SerialException as e:
     logging.error(f"Serial error: {e}")
